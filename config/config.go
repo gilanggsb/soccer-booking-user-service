@@ -10,7 +10,7 @@ import (
 var Config AppConfig
 
 type AppConfig struct {
-	Port                  string         `json:"port"`
+	Port                  int            `json:"port"`
 	AppName               string         `json:"appName"`
 	AppEnv                string         `json:"appEnv"`
 	SignatureKey          string         `json:"signatureKey"`
@@ -34,7 +34,7 @@ type DatabaseConfig struct {
 	MaxIdleTime           int    `json:"maxIdleTime"`
 }
 
-func init() {
+func Init() {
 	err := util.BindFromJSON(&Config, "config.json", ".")
 	if err == nil {
 		return

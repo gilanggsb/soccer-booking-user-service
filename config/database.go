@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func initDatabase() (*gorm.DB, error) {
+func InitDatabase() (*gorm.DB, error) {
 	config := Config
 	encodedPassword := url.QueryEscape(config.Database.Password)
 	uri := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable",
