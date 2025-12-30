@@ -6,10 +6,11 @@ RESET  := $(shell tput -Txterm sgr0)
 
 ## Live reload:
 watch-prepare: ## Install the tools required for the watch command
-	curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh
+	curl -sSfL https://raw.githubusercontent.com/air-verse/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 
 watch: ## Run the service with hot reload
-	bin/air
+	air
+
 
 ## Build:
 build: ## Build the service
