@@ -36,6 +36,7 @@ func (r *UserRepository) Register(ctx context.Context, req *dto.RegisterRequest)
 		Password:    req.Password,
 		PhoneNumber: req.PhoneNumber,
 		Username:    req.Username,
+		RoleID:      req.RoleID,
 	}
 
 	err := r.db.WithContext(ctx).Create(user).Error

@@ -29,6 +29,7 @@ func HandlePanic() gin.HandlerFunc {
 					Status:  constants.Error,
 					Message: errConstants.ErrInternalServerError.Error(),
 				})
+				return
 			}
 		}()
 		ctx.Next()
@@ -44,6 +45,7 @@ func RateLimiter(lmt *limiter.Limiter) gin.HandlerFunc {
 				Status:  constants.Error,
 				Message: errConstants.ErrTooManyRequests.Error(),
 			})
+			return
 		}
 		ctx.Next()
 	}
@@ -104,7 +106,7 @@ func validateBearerToken(c *gin.Context, token string) error {
 		return errConstants.ErrUnauthorized
 	}
 
-	userLogin := c.Request.WithContext(context.WithValue(c.Request.Context(), constants.UserLogin, claims.User))
+	userLogin := c.Request.WithContext(context.WithValue(c.Request.Context(), constants.UserLogin, &claims.User))
 	c.Request = userLogin
 	c.Set(constants.Token, tokenJwt)
 	return nil

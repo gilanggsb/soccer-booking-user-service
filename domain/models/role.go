@@ -8,5 +8,5 @@ type Role struct {
 	Name      string `gorm:"varchar(100);not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
+	DeletedAt *time.Time
 }

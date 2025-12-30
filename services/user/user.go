@@ -57,20 +57,20 @@ func (u *UserService) GetUserByUUID(ctx context.Context, uuid string) (*dto.User
 // GetUserLogin implements [IUserService].
 func (u *UserService) GetUserLogin(ctx context.Context) (*dto.UserResponse, error) {
 	var (
-		userLogin = ctx.Value(constants.UserLogin).(*models.User)
-		data      *dto.UserResponse
+		userLogin = ctx.Value(constants.UserLogin).(*dto.UserResponse)
+		// data      *dto.UserResponse
 	)
 
-	data = &dto.UserResponse{
-		UUID:        userLogin.UUID,
-		Name:        userLogin.Name,
-		Email:       userLogin.Email,
-		PhoneNumber: userLogin.PhoneNumber,
-		Username:    userLogin.Username,
-		Role:        userLogin.Role.Code,
-	}
+	// data = &dto.UserResponse{
+	// 	UUID:        userLogin.UUID,
+	// 	Name:        userLogin.Name,
+	// 	Email:       userLogin.Email,
+	// 	PhoneNumber: userLogin.PhoneNumber,
+	// 	Username:    userLogin.Username,
+	// 	Role:        userLogin.Role,
+	// }
 
-	return data, nil
+	return userLogin, nil
 }
 
 // Login implements [IUserService].
@@ -89,6 +89,7 @@ func (u *UserService) Login(ctx context.Context, req *dto.LoginRequest) (*dto.Lo
 	data := &dto.UserResponse{
 		UUID:        user.UUID,
 		Name:        user.Name,
+		Username:    user.Username,
 		Email:       user.Email,
 		Role:        strings.ToLower(user.Role.Code),
 		PhoneNumber: user.PhoneNumber,
@@ -199,6 +200,10 @@ func (u *UserService) Update(ctx context.Context, req *dto.UpdateRequest, uuid s
 	}
 
 	if req.Password != nil {
+		if req.ConfirmPassword == nil {
+			return nil, errConstant.ErrConfirmPasswordShouldntBeEmpty
+		}
+
 		if *req.Password != *req.ConfirmPassword {
 			return nil, errConstant.ErrPasswordDoesNotMatch
 		}
